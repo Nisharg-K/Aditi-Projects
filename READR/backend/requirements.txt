@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+ollama
+pymupdf
+python-multipart
+chromadb
+rank_bm25

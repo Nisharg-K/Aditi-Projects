@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Insight Extractor</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">AI Document Processing & Insight Extractor</p>
+        <div class="model-switcher">
+          <button id="llamaModelBtn" class="model-btn" type="button">Llama 3.1 8B</button>
+          <button id="qwenModelBtn" class="model-btn" type="button">Qwen3 VL 8B</button>
+        </div>
+        <div class="model-meta">
+          <span id="modelBadge" class="model-badge">Text mode - digital PDFs</span>
+          <span id="modelStatus" class="model-status"></span>
+        </div>
+        <div class="mode-switcher">
+          <button id="ragModeBtn" class="mode-btn" type="button">RAG Mode</button>
+          <button id="directModeBtn" class="mode-btn" type="button">Direct Mode</button>
+        </div>
+        <div class="mode-meta">
+          <span id="modeBadge" class="mode-badge">Vector search + reranking</span>
+          <span id="modeStatus" class="model-status"></span>
+          <span id="modeWarning" class="warning-badge hidden">
+            Large document - answers may be less accurate, only first ~1800 words used
+          </span>
+        </div>
+        <h1>Upload a PDF or TXT file and turn it into instant insight.</h1>
+        <p class="subcopy">
+          Drop in a document, review the summary and extracted entities, then ask
+          grounded questions about the content.
+        </p>
+      </section>
+
+      <section class="panel upload-panel">
+        <div id="dropZone" class="drop-zone">
+          <input id="fileInput" type="file" accept=".pdf,.txt" hidden />
+          <p class="drop-title">Drag and drop a PDF/TXT here</p>
+          <p class="drop-subtitle">or</p>
+          <button id="pickFileBtn" class="primary-btn" type="button">Choose file</button>
+          <p id="fileName" class="file-name">No file selected</p>
+        </div>
+        <button id="uploadBtn" class="primary-btn wide" type="button">Process document</button>
+        <p id="status" class="status"></p>
+        <div id="uploadProgress" class="upload-progress hidden">
+          <p id="uploadModeNote" class="upload-mode-note"></p>
+          <div id="step1" class="progress-step">Step 1: Extracting text...</div>
+          <div id="step2" class="progress-step">Step 2: Chunking and indexing...</div>
+          <div id="step3" class="progress-step">Step 3: Generating summary...</div>
+        </div>
+      </section>
+
+      <section class="results-grid">
+        <article class="panel">
+          <h2>Summary</h2>
+          <div id="summary" class="content-box muted">Upload a document to see the summary.</div>
+        </article>
+
+        <article class="panel">
+          <h2>Entities</h2>
+          <div id="entities" class="entities-grid muted">
+            <div>
+              <h3>Names</h3>
+              <ul id="namesList"></ul>
+            </div>
+            <div>
+              <h3>Organizations</h3>
+              <ul id="orgsList"></ul>
+            </div>
+            <div>
+              <h3>Dates</h3>
+              <ul id="datesList"></ul>
+            </div>
+            <div>
+              <h3>Values</h3>
+              <ul id="valuesList"></ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel insights-panel">
+          <h2>Insights</h2>
+          <ul id="insightsList" class="insights-list muted">
+            <li>Bullet-point insights will appear here after processing.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="panel chat-panel">
+        <div class="chat-header">
+          <h2>Chat</h2>
+          <button id="newChatBtn" class="secondary-btn" type="button">New Chat</button>
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <form id="chatForm" class="chat-form">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask something about the uploaded document..."
+            autocomplete="off"
+          />
+          <button class="primary-btn" type="submit">Ask</button>
+        </form>
+      </section>
+
+      <section class="panel debug-panel">
+        <details id="promptDebug" class="prompt-debug">
+          <summary>Ollama Prompts</summary>
+          <div id="promptDebugList" class="prompt-debug-list muted">
+            Upload a document or ask a question to see the prompts sent to Ollama.
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <div id="contextModal" class="context-modal hidden">
+      <div class="context-dialog">
+        <div class="context-header">
+          <h3>RAG Context</h3>
+          <button id="closeContextBtn" class="secondary-btn" type="button">Close</button>
+        </div>
+        <pre id="contextContent" class="context-content"></pre>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
