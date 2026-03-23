@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>READR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-layer" aria-hidden="true">
+      <div class="dot-grid"></div>
+      <div class="watermark-strip">
+        <span>READR</span>
+        <span>READR</span>
+        <span>READR</span>
+        <span>READR</span>
+        <span>READR</span>
+        <span>READR</span>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <div class="logo-box" aria-label="READR logo">
+        <div class="logo-wordmark">
+          <span class="logo-red">R</span>
+          <span class="logo-blue">E</span>
+          <span class="logo-yellow">A</span>
+          <span class="logo-green">D</span>
+          <span class="logo-red">R</span>
+        </div>
+        <p>DOCUMENT SUMMARIZER + INSIGHT GENERATOR</p>
+      </div>
+      <button id="newDocumentBtn" class="brutal-button utility-button hidden" type="button">
+        NEW DOCUMENT
+      </button>
+    </header>
+
+    <main class="app-shell">
+      <section id="uploadScreen" class="screen screen-upload">
+        <div id="errorBox" class="error-box hidden"></div>
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Upload document">
+          <input id="fileInput" type="file" accept=".pdf,.txt" hidden />
+          <div class="drop-content">
+            <h1>DROP YOUR DOCUMENT HERE</h1>
+            <p>PDF or TXT - upload any document to summarize, extract entities, and surface insights</p>
+            <p id="fileName" class="drop-filename">NO FILE SELECTED</p>
+          </div>
+        </div>
+        <button id="processBtn" class="brutal-button process-button" type="button">
+          PROCESS DOCUMENT
+        </button>
+        <div id="processingSteps" class="processing-steps hidden" aria-live="polite">
+          <p data-step="0">- Extracting text...</p>
+          <p data-step="1">- Chunking document...</p>
+          <p data-step="2">- Building index...</p>
+          <p data-step="3">- Generating insights...</p>
+        </div>
+      </section>
+
+      <section id="resultsScreen" class="screen screen-results hidden">
+        <div class="results-grid">
+          <article class="result-card">
+            <div class="card-header header-yellow">SUMMARY</div>
+            <div id="summaryCard" class="card-body"></div>
+          </article>
+
+          <article class="result-card">
+            <div class="card-header header-blue">ENTITIES</div>
+            <div id="entitiesCard" class="card-body entities-card">
+              <section>
+                <h2>NAMES</h2>
+                <div id="namesTags" class="tag-cloud"></div>
+              </section>
+              <section>
+                <h2>ORGS</h2>
+                <div id="orgsTags" class="tag-cloud"></div>
+              </section>
+              <section>
+                <h2>DATES</h2>
+                <div id="datesTags" class="tag-cloud"></div>
+              </section>
+              <section>
+                <h2>VALUES</h2>
+                <div id="valuesTags" class="tag-cloud"></div>
+              </section>
+            </div>
+          </article>
+
+          <article class="result-card">
+            <div class="card-header header-red">INSIGHTS</div>
+            <div class="card-body">
+              <ul id="insightsList" class="insights-list"></ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="results-actions">
+          <button id="openChatBtn" class="brutal-button chat-launch-button" type="button">
+            EXPLORE THIS DOCUMENT ->
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <section id="chatOverlay" class="chat-overlay hidden" aria-hidden="true">
+      <div class="chat-shell">
+        <div class="chat-topbar">
+          <div class="chat-logo">
+            <span class="logo-red">R</span><span class="logo-blue">E</span><span class="logo-yellow">A</span><span class="logo-green">D</span><span class="logo-red">R</span>
+          </div>
+          <div id="chatFilename" class="chat-filename"></div>
+          <button id="closeChatBtn" class="chat-close" type="button">X CLOSE</button>
+        </div>
+
+        <div id="chatMessages" class="chat-messages"></div>
+
+        <form id="chatForm" class="chat-form">
+          <input
+            id="chatInput"
+            type="text"
+            autocomplete="off"
+            placeholder="ASK FOR DETAILS, SUMMARY, OR INSIGHTS..."
+          />
+          <button id="sendBtn" type="submit">SEND -></button>
+        </form>
+      </div>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
